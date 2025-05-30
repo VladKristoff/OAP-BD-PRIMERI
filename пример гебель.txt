@@ -1,0 +1,47 @@
+import sqlite3
+import os
+import sys
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget
+from tablichka import Ui_MainWindow
+
+# Установите путь к платформенным плагинам Qt
+os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = "ваш путь до plugins"
+
+DB_PATH = r"путь до базы"
+
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.load_data()
+        self.ui.pushButton.clicked.connect(self.load_data)
+
+    def load_data(self):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        try:
+            cursor.execute("SELECT Manufacturer, Model, Price, Mileage FROM Cars")
+            rows = cursor.fetchall()
+        except Exception as e:
+            print("Ошибка при загрузке данных из базы:", e)
+            rows = []
+        conn.close()
+
+        table = self.ui.tableWidget
+        table.clearContents()
+        table.setRowCount(len(rows))
+        table.setColumnCount(4)
+        table.setHorizontalHeaderLabels(["название столбца", "название столбца", "название столбца", "название столбца"])
+
+        for row_idx, row_data in enumerate(rows):
+            for col_idx, value in enumerate(row_data):
+                item = QtWidgets.QTableWidgetItem(str(value))
+                table.setItem(row_idx, col_idx, item)
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())

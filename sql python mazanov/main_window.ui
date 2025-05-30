@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Bookshop</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <!-- Кнопки -->
+   <widget class="QPushButton" name="btn_show_books">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Показать книги</string>
+    </property>
+   </widget>
+
+   <widget class="QPushButton" name="btn_show_genres">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>20</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Показать жанры</string>
+    </property>
+   </widget>
+
+   <widget class="QPushButton" name="btn_add_book">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Добавить книгу</string>
+    </property>
+   </widget>
+
+   <widget class="QPushButton" name="btn_add_genre">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>70</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Добавить жанр</string>
+    </property>
+   </widget>
+
+   <widget class="QPushButton" name="btn_delete_book">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>120</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Удалить книгу</string>
+    </property>
+   </widget>
+
+   <!-- Таблица для отображения данных -->
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>20</y>
+      <width>400</width>
+      <height>500</height>
+     </rect>
+    </property>
+   </widget>
+
+   <!-- Поля для добавления книги -->
+   <widget class="QLineEdit" name="input_book_name">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Название книги</string>
+    </property>
+   </widget>
+
+   <widget class="QLineEdit" name="input_book_genre_id">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>240</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>ID жанра</string>
+    </property>
+   </widget>
+
+   <widget class="QLineEdit" name="input_book_price">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>280</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Цена</string>
+    </property>
+   </widget>
+
+   <widget class="QLineEdit" name="input_book_count">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>320</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Количество</string>
+    </property>
+   </widget>
+
+   <!-- Поле для добавления жанра -->
+   <widget class="QLineEdit" name="input_genre_id">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>200</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>ID жанра</string>
+    </property>
+   </widget>
+
+   <widget class="QLineEdit" name="input_genre_name">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>240</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Название жанра</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar"/>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

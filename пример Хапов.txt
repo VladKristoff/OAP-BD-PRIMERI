@@ -1,0 +1,81 @@
+import os
+os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = r"C:\Users\Студент.44-5\AppData\Local\Programs\Python\Python313\Lib\site-packages\PyQt5\Qt5\plugins\platforms"
+import sys
+import sqlite3
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from Prepod import Ui_MainWindow
+
+
+class MainApp(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+
+        self.db_path = self.select_db_file()
+        if not self.db_path:
+            QMessageBox.critical(self, "Ошибка", "Файл базы данных не выбран.")
+            sys.exit(0)
+
+        self.conn = sqlite3.connect(self.db_path)
+        self.cursor = self.conn.cursor()
+
+        self.load_data()
+
+        self.ui.Dell.clicked.connect(self.delete_row)
+        self.ui.Add.clicked.connect(self.add_row)
+        self.ui.Close.clicked.connect(self.close)
+
+    def select_db_file(self):
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getOpenFileName(self, "Выберите файл базы данных", "", "Database Files (*.db)")
+        return file_path
+
+    def load_data(self):
+        self.ui.tableWidget.setRowCount(0)
+        try:
+            self.cursor.execute("SELECT * FROM Prepod")  # предполагаемая таблица
+            rows = self.cursor.fetchall()
+            for row_index, row_data in enumerate(rows):
+                self.ui.tableWidget.insertRow(row_index)
+                for col_index, col_data in enumerate(row_data):
+                    self.ui.tableWidget.setItem(row_index, col_index, QtWidgets.QTableWidgetItem(str(col_data)))
+        except sqlite3.Error as e:
+            QMessageBox.critical(self, "Ошибка", f"Ошибка при загрузке данных: {e}")
+
+    def delete_row(self):
+        id_text = self.ui.InputDell.toPlainText().strip()
+        if not id_text.isdigit():
+            QMessageBox.warning(self, "Удаление", "Введите корректный ID преподавателя для удаления.")
+            return
+
+        record_id = int(id_text)
+
+        try:
+            self.cursor.execute("DELETE FROM Prepod WHERE IdPrepod = ?", (record_id,))
+            if self.cursor.rowcount == 0:
+                QMessageBox.information(self, "Удаление", f"Преподаватель с ID {record_id} не найден.")
+            else:
+                self.conn.commit()
+                QMessageBox.information(self, "Удаление", f"Преподаватель с ID {record_id} успешно удалён.")
+                self.load_data()
+        except sqlite3.Error as e:
+            QMessageBox.critical(self, "Ошибка", f"Ошибка при удалении: {e}")
+
+    def add_row(self):
+        try:
+            # Простая заготовка: добавляет пустую запись (можно улучшить)
+            self.cursor.execute("INSERT INTO Prepod (Name, IdJobTitle, idDepartament, Salary) VALUES (?, ?, ?, ?)",
+                                ("Новый", 1, 1, 0))
+            self.conn.commit()
+            self.load_data()
+        except sqlite3.Error as e:
+            QMessageBox.critical(self, "Ошибка", f"Ошибка при добавлении: {e}")
+
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainApp()
+    window.show()
+    sys.exit(app.exec_())
